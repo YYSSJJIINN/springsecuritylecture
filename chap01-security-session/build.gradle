@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ohgiraffers'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    /* Spring Security v6.4
+     * 아래는 Spring Starters에서 Spring Security를 선택했을 때 추가되는 의존성 3가지다.
+     * 아래 의존성이 추가되면 Spring Security 관련 디폴트 설정이 자동으로 애플리케이션에 반영된다.
+     * 이 때, 다음과 같은 현상을 관찰할 수 있다:
+     * 1. 내장 Tomcat을 실행했을 때, 터미널에 Security 관련 로그가 추가로 출력됨.
+     * 2. 애플리케이션의 root context로 접속 했을 때, Spring Security가 기본적으로 제공하는 로그인 페이지(/login)가 보임.
+     *   - org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
+     *   - org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+     * -----------------------------------------------------------------------------------------
+     * 참고로 Spring Boot v3.0 버전과 Spring Security v6.0 버전이 세트다.
+     * 따라서 Spring Boot v3.4 버전을 사용중이라면 Spring Security는 v6.4 버전을 사용하게 된다.
+     *  */
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
