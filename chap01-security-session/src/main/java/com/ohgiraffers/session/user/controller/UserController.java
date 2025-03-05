@@ -53,20 +53,24 @@ public class UserController {
         if(result == null ) {
             message = "이미 해당 정보로 가입된 회원이 존재합니다.";
             System.out.println("message = " + message);
-            mv.setViewName("user/signup");
+//            mv.setViewName("user/signup");
+            mv.setViewName("redirect:user/signup");
         } else if (result == 0) {
             message = "회원 가입에 실패했습니다. 다시 시도해주세요.";
             System.out.println("message = " + message);
-            mv.setViewName("user/signup");
+//            mv.setViewName("user/signup");
+            mv.setViewName("redirect:user/signup");
         } else if (result >= 1) {
             /* 얘만 성공했으므로, 성공 후에 이동할 로그인페이지로 이동하게 작성해주면 된다.*/
             message = "회원 가입이 성공적으로 완료되었습니다.";
             System.out.println("message = " + message);
-            mv.setViewName("auth/login");   // 이것은 포워드다. 리다이렉트라면 앞에 redirect: 입력해줘야한다.
+//            mv.setViewName("auth/login");   // 이것은 포워드다. 리다이렉트라면 앞에 redirect: 입력해줘야한다.
+            mv.setViewName("redirect:auth/login");
         } else {
             message = "알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.";
             System.out.println("message = " + message);
-            mv.setViewName("user/signup");
+//            mv.setViewName("user/signup");
+            mv.setViewName("redirect:user/signup");
         }
 
         /* 결과 페이지에서 출력할 메세지를 Model에 추가. */
