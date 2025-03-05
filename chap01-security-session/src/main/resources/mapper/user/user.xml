@@ -6,4 +6,19 @@
 
 <mapper namespace="com.ohgiraffers.session.user.model.dao.UserMapper">
 
+    <!-- 신규 사용자 가입-->
+    <insert id="regist" parameterType="com.ohgiraffers.session.user.model.dto.SignupDTO">
+        INSERT INTO tbl_user
+        (
+            username,
+            password,
+            full_name
+        )
+        VALUES
+        (
+            #{ username },
+            #{ password },
+            #{ fullName }
+
+    </insert>
 </mapper>

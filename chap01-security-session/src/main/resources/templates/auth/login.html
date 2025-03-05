@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>로그인 페이지</h1>
+
+    <form th:action="@{/auth/login}" th:method="POST">
+        <label>아이디 : </label>
+        <input type="text" id="user" name="user"/>
+        <br>
+        <label>비밀번호 : </label>
+        <input type="password" id="pass" name="pass"/>
+        <br>
+        <button>로그인</button>
+    </form>
+    <script th:inline="text">
+        /* 설명. 회원가입 결과 메세지를 출력용 alert() */
+        const message = `[[${ message }]]`;
+        if (message) {
+            alert(message);
+        }
+    </script>
+</body>
+</html>
