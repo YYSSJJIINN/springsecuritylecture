@@ -40,9 +40,9 @@ dependencies {
      * 참고로 Spring Boot v3.0 버전과 Spring Security v6.0 버전이 세트다.
      * 따라서 Spring Boot v3.4 버전을 사용중이라면 Spring Security는 v6.4 버전을 사용하게 된다.
      *  */
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-    testImplementation 'org.springframework.security:spring-security-test'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+//    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
