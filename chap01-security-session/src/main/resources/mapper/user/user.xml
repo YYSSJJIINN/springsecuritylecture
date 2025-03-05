@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- https://mybatis.org/mybatis-3/getting-started.html -->
 
 <mapper namespace="com.ohgiraffers.session.user.model.dao.UserMapper">
+
+    <!-- tbl_user 테이블의 마지막 auto_increment값 조회 -->
+    <select id="findMaxUserCode" parameterType="_int">
+        select
+            (AUTO_INCREMENT - 1) as 'cursor'
+        from
+            information_schema.TABLES
+        where
+            TABLE_SCHEMA = 'securitydb' and
+            TABLE_NAME = 'tbl_user'
+    </select>
 
     <!-- 신규 사용자 가입-->
     <insert id="regist" parameterType="com.ohgiraffers.session.user.model.dto.SignupDTO">
@@ -19,6 +30,20 @@
             #{ username },
             #{ password },
             #{ fullName }
+        )
+    </insert>
 
+    <!-- 신규 사용자 정보 및 기본 권한 설정 -->
+    <insert id="registUserAuthority" parameterType="com.ohgiraffers.session.user.model.dto.UserAuthorityDTO">
+        INSERT INTO tbl_user_role
+        (
+        user_code,
+        authority_code
+        )
+        VALUES
+            (
+            #{ userCode },
+            #{ authorityCode }
+            );
     </insert>
 </mapper>
