@@ -74,7 +74,7 @@ public class SecurityConfig {
      *   4. 세션 관리 : 세션 고정 보호, 세션 만료, 세션 최대 허용 수 등
      *   5. CSRF : Cross-Site Request Forgery 보호 설정
      * */
-    @Bean
+    @Bean   // 반환형이 Bean이라는 뜻이다.
     public SecurityFilterChain filterChainConfigure(HttpSecurity http) throws Exception {
 
         /* 설명. HttpSecurity와 SecurityFilterChain
@@ -92,18 +92,18 @@ public class SecurityConfig {
         // #1. 서버의 리소스에 접근 가능한 권한을 설정
         http.authorizeHttpRequests(auth -> {
             // 로그인, 회원가입, 실패 페이지와 홈은 모두에게 허용
-//            auth.requestMatchers("/auth/login","/user/signup","/auth/fail","/").permitAll();
-//            // '/admin/*' 엔드포인트는 ADMIN 권한을 가진 사용자만 접근 허용
-//            auth.requestMatchers("/admin/*").hasAnyAuthority("ADMIN");
-//            // '/user/*' 엔드포인트는 USER 권한을 가진 사용자만 접근 허용
-//            auth.requestMatchers("/user/*").hasAnyAuthority("USER");
-//            // 나머지 요청은 모두 인증된 사용자만 접근 가능
-//            auth.anyRequest().authenticated();
+            auth.requestMatchers("/auth/login","/user/signup","/auth/fail","/").permitAll();
+            // '/admin/*' 엔드포인트는 ADMIN 권한을 가진 사용자만 접근 허용
+            auth.requestMatchers("/admin/*").hasAnyAuthority("ADMIN");
+            // '/user/*' 엔드포인트는 USER 권한을 가진 사용자만 접근 허용
+            auth.requestMatchers("/user/*").hasAnyAuthority("USER");
+            // 나머지 요청은 모두 인증된 사용자만 접근 가능
+            auth.anyRequest().authenticated();
             /* 설명. 프로젝트 초기에 인증/인가 기능이 아직 미구현 상태일 때 Security 기능을 약화시켜
              *  인증/인가가 필요한 기능 개발을 진행할 수 있게 해주는 임시 설정이다.
              *  어떠한 요청이던(anyRequest) 인증/인가 필요 없이 모두 허락(permitAll)한다는 뜻.
              * */
-            auth.anyRequest().permitAll();  // 모든 페이지에서 로그인 없이 활동가능. 누구든 모든걸 다 허락한다. 스프링시큐리티가 감시만 할 뿐 막지는 않음.
+//            auth.anyRequest().permitAll();  // 모든 페이지에서 로그인 없이 활동가능. 누구든 모든걸 다 허락한다. 스프링시큐리티가 감시만 할 뿐 막지는 않음.
         // #2. <form> 태그를 사용한 로그인 관련 설정
         }).formLogin(login -> {
             // 로그인 페이지 경로 설정(로그인 페이지에 해당되는 핸들러 매핑이 존재해야 함)

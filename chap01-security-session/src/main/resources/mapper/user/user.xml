@@ -6,6 +6,13 @@
 
 <mapper namespace="com.ohgiraffers.session.user.model.dao.UserMapper">
 
+    <resultMap id="authenticated" type="com.ohgiraffers.session.user.model.dto.UserDTO">
+        <id property="userCode" column="user_code"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="fullName" column="full_name"/>
+    </resultMap>
+
     <!-- tbl_user 테이블의 마지막 auto_increment값 조회 -->
     <select id="findMaxUserCode" parameterType="_int">
         select
@@ -15,6 +22,35 @@
         where
             TABLE_SCHEMA = 'securitydb' and
             TABLE_NAME = 'tbl_user'
+    </select>
+
+    <!-- 로그인(인증) -->
+    <!-- UserMapper 인터페이스에 작성되어있는 UserDTO findByUsername(String username);의 내용 사용 -->
+    <select id="findByUsername" parameterType="string" resultMap="authenticated">
+        select
+            user_code,
+            username,
+            password,
+            full_name
+        from
+            tbl_user
+        where
+            username = #{ username }
+    </select>
+
+    <!-- 사용자별 권한 조회 -->
+    <!-- 이번엔 굳이 리절트맵을 만들진 않고 리절트타입으로 만들어준다. -->
+    <select id="findAllAuthoritiesByUserCode" parameterType="_int" resultType="com.ohgiraffers.session.user.model.dto.AuthorityDTO">
+        select
+            a.authority_code as code,
+            a.authority_name as name,
+            a.authority_desc as description
+        from
+            tbl_user_role ur
+        join
+            tbl_authority a on ur.authority_code = a.authority_code
+        where
+            ur.user_code = #{ userCode }
     </select>
 
     <!-- 신규 사용자 가입-->
@@ -30,7 +66,7 @@
             #{ username },
             #{ password },
             #{ fullName }
-        )
+        );
     </insert>
 
     <!-- 신규 사용자 정보 및 기본 권한 설정 -->

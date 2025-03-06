@@ -1,14 +1,19 @@
 package com.ohgiraffers.session.user.model.service;
 
 import com.ohgiraffers.session.user.model.dao.UserMapper;
+import com.ohgiraffers.session.user.model.dto.AuthorityDTO;
 import com.ohgiraffers.session.user.model.dto.SignupDTO;
 import com.ohgiraffers.session.user.model.dto.UserAuthorityDTO;
+import com.ohgiraffers.session.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -86,5 +91,21 @@ public class UserService {
 
         /* 목차. 4. 작업 결과 반환*/
         return finalResult;
+    }
+
+    public UserDTO findByUsername(String username) {
+
+        UserDTO foundUser = userMapper.findByUsername(username);
+
+        if(!Objects.isNull(foundUser)) {
+            return foundUser;
+        } else {
+            return null;
+        }
+    }
+
+    public List<AuthorityDTO> findAllAuthoritiesByUserCode(int userCode) {
+
+        return userMapper.findAllAuthoritiesByUserCode(userCode);
     }
 }

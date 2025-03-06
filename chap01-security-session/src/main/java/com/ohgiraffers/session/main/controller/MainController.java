@@ -12,4 +12,16 @@ public class MainController {
         mv.setViewName("main/main");
         return mv;
     }
+
+    @GetMapping("/admin/page")
+    public ModelAndView admin(ModelAndView mv) {
+        mv.setViewName("admin/admin");
+        return mv;
+    }
+
+    @GetMapping("/user/page")
+    public ModelAndView user(ModelAndView mv) {
+        mv.setViewName("user/user");
+        return mv;
+    }
 }

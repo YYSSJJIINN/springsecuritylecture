@@ -23,5 +23,12 @@
             alert(message);
         }
     </script>
+    <!--
+        위 form 데이터의 로그인 버튼을 눌렀을 때 발생하는 일:
+        0. 먼저 Spring Security 설정 정보가 존재해야함 (SecurityConfig 클래스 참고)
+        1. 로그인 폼 데이터 화면(login.html)에서 데이터는 POST 방식으로 /auth/login URL로 전성됨.
+        2. Spring Security Filter Chain에 의해 UserDetailsService의 구현체인 AuthService가 해당 요청을 가로챔.
+            이는 SecurityConfig에 정의한 바가 있기 때문.
+        -->
 </body>
 </html>

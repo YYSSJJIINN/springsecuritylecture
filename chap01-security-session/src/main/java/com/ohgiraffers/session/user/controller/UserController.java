@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -24,7 +25,7 @@ public class UserController {
     public void signup() {}
 
     @PostMapping("/signup")
-    public ModelAndView signup(ModelAndView mv, SignupDTO newUserDTO) {
+    public ModelAndView signup(ModelAndView mv, SignupDTO newUserDTO, RedirectAttributes rAttr ) {
         System.out.println("newUserDTO = " + newUserDTO);
 
         /* 요청 속 form 데이터를 일일이 파싱하지 않고 커맨드 객체로 받아냈기 때문에
@@ -65,7 +66,7 @@ public class UserController {
             message = "회원 가입이 성공적으로 완료되었습니다.";
             System.out.println("message = " + message);
 //            mv.setViewName("auth/login");   // 이것은 포워드다. 리다이렉트라면 앞에 redirect: 입력해줘야한다.
-            mv.setViewName("redirect:auth/login");
+            mv.setViewName("redirect:/auth/login");      // GET/auth/login을 받아줄 메서드핸들러를 아직 안만들어줘서 에러가 뜬다.
         } else {
             message = "알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.";
             System.out.println("message = " + message);
@@ -73,8 +74,11 @@ public class UserController {
             mv.setViewName("redirect:user/signup");
         }
 
-        /* 결과 페이지에서 출력할 메세지를 Model에 추가. */
-        mv.addObject("message", message);
+        /* 결과 페이지에서 출력할 메세지를 Model에 추가하면 요청 URL에 쿼리스트링으로 데이터가 노출됨.
+         * 따라서 리다이렉트를 할 때는 RedirectAttributes를 사용해 차후 핸들러 메서드에서 공유할 데이터를 담아야 한다.
+         * */
+//        mv.addObject("message", message);             // 포워딩 시 = 2차서블릿에서 데이터 공유 가능
+        rAttr.addFlashAttribute("message", message);   // 리다이렉트 시 = 1차와 2차 서블릿은 서로 데이터 공유 불가능
 
         return mv;
     }
